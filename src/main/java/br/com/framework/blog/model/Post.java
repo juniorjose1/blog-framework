@@ -1,7 +1,9 @@
 package br.com.framework.blog.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,15 +13,20 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import br.com.framework.blog.controller.form.PostForm;
+
 @Entity
 public class Post {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
 	private String content;
 	private String urlImageFeatured;
+	private LocalDateTime creationDate = LocalDateTime.now();
 
 	@OneToMany(mappedBy = "post")
 	private List<Comment> comments = new ArrayList<>();
@@ -29,6 +36,17 @@ public class Post {
 
 	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
 	private List<Image> images = new ArrayList<>();
+	
+	public Post() {
+	}
+
+	public Post(PostForm postForm) {
+		this.title = postForm.getTitle();
+		this.content = postForm.getContent();
+		this.urlImageFeatured = postForm.getUrlImageFeatured();
+		this.images.addAll(postForm.getUrlImages().stream().map(i -> new Image(i, this)).collect(Collectors.toList()));
+		this.user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
 
 	@Override
 	public int hashCode() {
@@ -110,5 +128,15 @@ public class Post {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
+	
+	public LocalDateTime getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDateTime creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	
 
 }

@@ -20,6 +20,14 @@ public class Image {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Post post;
+	
+	public Image() {
+	}
+
+	public Image(String url, Post post) {
+		this.url = url;
+		this.post = post;
+	}
 
 	@Override
 	public int hashCode() {

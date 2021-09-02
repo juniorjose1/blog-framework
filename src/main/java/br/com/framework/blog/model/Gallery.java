@@ -1,5 +1,6 @@
 package br.com.framework.blog.model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Gallery {
 	private Long id;
 	private String title;
 	private String urlImageFeatured;
+	private LocalDateTime creationDate = LocalDateTime.now();
 
 	@OneToMany(mappedBy = "gallery", fetch = FetchType.EAGER)
 	private List<Image> images = new ArrayList<>();
@@ -89,6 +91,10 @@ public class Gallery {
 
 	public void setImages(List<Image> images) {
 		this.images = images;
+	}
+	
+	public LocalDateTime getCreationDate() {
+		return creationDate;
 	}
 
 }

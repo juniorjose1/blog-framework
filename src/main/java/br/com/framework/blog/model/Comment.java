@@ -1,5 +1,7 @@
 package br.com.framework.blog.model;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,6 +16,7 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String content;
+	private LocalDateTime creationDate = LocalDateTime.now();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
@@ -76,6 +79,10 @@ public class Comment {
 
 	public void setPost(Post post) {
 		this.post = post;
+	}
+
+	public LocalDateTime getCreationDate() {
+		return creationDate;
 	}
 
 }
