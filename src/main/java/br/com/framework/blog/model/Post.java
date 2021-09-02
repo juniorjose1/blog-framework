@@ -1,5 +1,6 @@
 package br.com.framework.blog.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,13 +19,41 @@ public class Post {
 	private Long id;
 	private String title;
 	private String content;
-	private String imageFeatured;
+	private String urlImageFeatured;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	private List<Comment> comments;
+	@OneToMany(mappedBy = "post")
+	private List<Comment> comments = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
+
+	@OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+	private List<Image> images = new ArrayList<>();
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Post other = (Post) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 
 	public Long getId() {
 		return id;
@@ -50,12 +79,12 @@ public class Post {
 		this.content = content;
 	}
 
-	public String getImageFeatured() {
-		return imageFeatured;
+	public String getUrlImageFeatured() {
+		return urlImageFeatured;
 	}
 
-	public void setImageFeatured(String imageFeatured) {
-		this.imageFeatured = imageFeatured;
+	public void setUrlImageFeatured(String urlImageFeatured) {
+		this.urlImageFeatured = urlImageFeatured;
 	}
 
 	public List<Comment> getComments() {
@@ -72,6 +101,14 @@ public class Post {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 }

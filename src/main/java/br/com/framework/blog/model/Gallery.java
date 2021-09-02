@@ -1,11 +1,15 @@
 package br.com.framework.blog.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Gallery {
@@ -14,11 +18,38 @@ public class Gallery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String title;
-	private String imageFeatured;
-	private String content;
+	private String urlImageFeatured;
+
+	@OneToMany(mappedBy = "gallery", fetch = FetchType.EAGER)
+	private List<Image> images = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Gallery other = (Gallery) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 
 	public Long getId() {
 		return id;
@@ -36,20 +67,12 @@ public class Gallery {
 		this.title = title;
 	}
 
-	public String getImageFeatured() {
-		return imageFeatured;
+	public String getUrlImageFeatured() {
+		return urlImageFeatured;
 	}
 
-	public void setImageFeatured(String imageFeatured) {
-		this.imageFeatured = imageFeatured;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
+	public void setUrlImageFeatured(String urlImageFeatured) {
+		this.urlImageFeatured = urlImageFeatured;
 	}
 
 	public User getUser() {
@@ -58,6 +81,14 @@ public class Gallery {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 }

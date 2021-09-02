@@ -8,15 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Comment {
+public class Image {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String content;
+	private String url;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	private User user;
+	private Gallery gallery;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Post post;
@@ -37,7 +37,7 @@ public class Comment {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Comment other = (Comment) obj;
+		Image other = (Image) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -54,20 +54,20 @@ public class Comment {
 		this.id = id;
 	}
 
-	public String getContent() {
-		return content;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
-	public User getUser() {
-		return user;
+	public Gallery getGallery() {
+		return gallery;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setGallery(Gallery gallery) {
+		this.gallery = gallery;
 	}
 
 	public Post getPost() {
