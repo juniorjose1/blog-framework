@@ -1,6 +1,6 @@
 package br.com.framework.blog.exception;
 
-public interface INotFoundException {
+public interface IException {
 	
 	String getMessage();
 

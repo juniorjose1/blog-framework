@@ -21,44 +21,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.com.framework.blog.controller.dto.PostDetailDto;
-import br.com.framework.blog.controller.dto.PostDto;
-import br.com.framework.blog.controller.form.PostForm;
-import br.com.framework.blog.service.PostService;
+import br.com.framework.blog.controller.dto.GalleryDetailDto;
+import br.com.framework.blog.controller.dto.GalleryDto;
+import br.com.framework.blog.controller.form.GalleryForm;
+import br.com.framework.blog.service.GalleryService;
 
 @RestController
-@RequestMapping("/posts")
-public class PostController {
+@RequestMapping("/gallery")
+public class GalleryController {
 	
 	@Autowired
-	private PostService postService;
+	private GalleryService galleryService;
 	
 	@GetMapping
-	@Cacheable("listPosts")
-	public ResponseEntity<Page<PostDto>> findAll(
+	@Cacheable("listGalleries")
+	public ResponseEntity<Page<GalleryDto>> findAll(
 			@PageableDefault(sort = "creationDate", direction = Direction.DESC, 
 			page = 0, size = 10) Pageable pageable){
-		return ResponseEntity.ok(postService.findAll(pageable));
+		return ResponseEntity.ok(galleryService.findAll(pageable));
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<PostDetailDto> findById(@PathVariable Long id){
-		return ResponseEntity.ok(postService.findById(id));
+	public ResponseEntity<GalleryDetailDto> findById(@PathVariable Long id){
+		return ResponseEntity.ok(galleryService.findById(id));
 	}
 	
 	@PostMapping
-	@CacheEvict(value = "listPosts", allEntries = true)
-	public ResponseEntity<PostDetailDto> save(@Valid @RequestBody PostForm postForm, UriComponentsBuilder uriBuilder){
-		PostDetailDto postDetailDto = postService.save(postForm);
-		URI uri = uriBuilder.path("/posts/{id}").buildAndExpand(postDetailDto.getId()).toUri();
-		return ResponseEntity.created(uri).body(postDetailDto);
+	@CacheEvict(value = "listGalleries", allEntries = true)
+	public ResponseEntity<GalleryDetailDto> save(@Valid @RequestBody GalleryForm galleryForm, UriComponentsBuilder uriBuilder){
+		GalleryDetailDto galleryDetailDto = galleryService.save(galleryForm);
+		URI uri = uriBuilder.path("/gallery/{id}").buildAndExpand(galleryDetailDto.getId()).toUri();
+		return ResponseEntity.created(uri).body(galleryDetailDto);
 	}
 	
 	@DeleteMapping("/{id}")
-	@CacheEvict(value = "listPosts", allEntries = true)
+	@CacheEvict(value = "listGalleries", allEntries = true)
 	public ResponseEntity<?> delete(@PathVariable Long id){
-		postService.deleteById(id);
+		galleryService.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
-
+	
 }

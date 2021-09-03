@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import br.com.framework.blog.controller.form.CommentForm;
+
 @Entity
 public class Comment {
 
@@ -23,6 +27,15 @@ public class Comment {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Post post;
+	
+	public Comment() {
+	}
+	
+	public Comment(CommentForm commentForm, Post post) {
+		this.content = commentForm.getContent();
+		this.post = post;
+		this.user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
 
 	@Override
 	public int hashCode() {

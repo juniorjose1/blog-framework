@@ -13,7 +13,7 @@ public class PostDetailDto {
 	private String title;
 	private String content;
 	private String urlImageFeatured;
-	private List<String> contentComments = new ArrayList<>();
+	private List<CommentDto> commentsDto = new ArrayList<>();
 	private String nameUser;
 	private List<String> urlImages = new ArrayList<>();
 	private LocalDateTime creationDate;
@@ -23,7 +23,7 @@ public class PostDetailDto {
 		this.title = post.getTitle();
 		this.content = post.getContent();
 		this.urlImageFeatured = post.getUrlImageFeatured();
-		this.contentComments.addAll(post.getComments().stream().map(c -> c.getContent()).collect(Collectors.toList()));
+		this.commentsDto.addAll(post.getComments().stream().map(CommentDto::new).collect(Collectors.toList()));
 		this.nameUser = post.getUser().getLogin();
 		this.urlImages.addAll(post.getImages().stream().map(i -> i.getUrl()).collect(Collectors.toList()));
 		this.creationDate = post.getCreationDate();
@@ -45,8 +45,8 @@ public class PostDetailDto {
 		return urlImageFeatured;
 	}
 
-	public List<String> getContentComments() {
-		return contentComments;
+	public List<CommentDto> getCommentsDto() {
+		return commentsDto;
 	}
 
 	public String getNameUser() {

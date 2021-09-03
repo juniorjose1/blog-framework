@@ -1,8 +1,13 @@
 package br.com.framework.blog.controller.form;
 
-public class LoginForm {
+import javax.validation.constraints.NotEmpty;
 
+public class LoginForm {
+	
+	@NotEmpty
 	private String login;
+	
+	@NotEmpty
 	private String password;
 
 	public String getLogin() {

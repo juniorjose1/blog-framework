@@ -28,6 +28,11 @@ public class Image {
 		this.url = url;
 		this.post = post;
 	}
+	
+	public Image(String url, Gallery gallery) {
+		this.url = url;
+		this.gallery = gallery;
+	}
 
 	@Override
 	public int hashCode() {

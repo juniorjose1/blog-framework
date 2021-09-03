@@ -3,6 +3,7 @@ package br.com.framework.blog.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import br.com.framework.blog.controller.form.GalleryForm;
 
 @Entity
 public class Gallery {
@@ -27,6 +32,16 @@ public class Gallery {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
+	
+	public Gallery() {
+	}
+	
+	public Gallery(GalleryForm galleryForm) {
+		this.title = galleryForm.getTitle();
+		this.urlImageFeatured = galleryForm.getUrlImageFeatured();
+		this.images.addAll(galleryForm.getUrlImages().stream().map(i -> new Image(i,this)).collect(Collectors.toList()));
+		this.user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
 
 	@Override
 	public int hashCode() {

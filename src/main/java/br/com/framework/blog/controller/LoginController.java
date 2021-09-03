@@ -1,5 +1,7 @@
 package br.com.framework.blog.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +27,7 @@ public class LoginController {
 	private TokenService tokenService;	
 	
 	@PostMapping
-	public ResponseEntity<TokenDto> autenticar(@RequestBody LoginForm loginForm){
+	public ResponseEntity<TokenDto> autenticar(@Valid @RequestBody LoginForm loginForm){
 		UsernamePasswordAuthenticationToken userAuth = new 
 				UsernamePasswordAuthenticationToken(loginForm.getLogin(), loginForm.getPassword());
 		

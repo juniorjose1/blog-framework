@@ -1,6 +1,6 @@
 package br.com.framework.blog.exception;
 
-public class ResourceNotFoundException extends RuntimeException implements INotFoundException {
+public class ResourceNotFoundException extends RuntimeException implements IException {
 
 	private static final long serialVersionUID = 1L;
 	
