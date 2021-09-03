@@ -25,6 +25,9 @@ import br.com.framework.blog.controller.dto.PostDetailDto;
 import br.com.framework.blog.controller.dto.PostDto;
 import br.com.framework.blog.controller.form.PostForm;
 import br.com.framework.blog.service.PostService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/posts")
@@ -33,10 +36,18 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 	
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+	            value = "Page to be loaded", defaultValue = "0"),
+	    @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+	            value = "Number of records", defaultValue = "5"),
+	    @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+	            value = "Ordering of records(attribute,desc ou asc)")
+	})
 	@GetMapping
 	@Cacheable("listPosts")
 	public ResponseEntity<Page<PostDto>> findAll(
-			@PageableDefault(sort = "creationDate", direction = Direction.DESC, 
+			@ApiIgnore @PageableDefault(sort = "creationDate", direction = Direction.DESC, 
 			page = 0, size = 10) Pageable pageable){
 		return ResponseEntity.ok(postService.findAll(pageable));
 	}

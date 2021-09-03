@@ -25,6 +25,9 @@ import br.com.framework.blog.controller.dto.GalleryDetailDto;
 import br.com.framework.blog.controller.dto.GalleryDto;
 import br.com.framework.blog.controller.form.GalleryForm;
 import br.com.framework.blog.service.GalleryService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/gallery")
@@ -33,10 +36,18 @@ public class GalleryController {
 	@Autowired
 	private GalleryService galleryService;
 	
+	@ApiImplicitParams({
+	    @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+	            value = "Page to be loaded", defaultValue = "0"),
+	    @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+	            value = "Number of records", defaultValue = "5"),
+	    @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+	            value = "Ordering of records(attribute,desc ou asc)")
+	})
 	@GetMapping
 	@Cacheable("listGalleries")
 	public ResponseEntity<Page<GalleryDto>> findAll(
-			@PageableDefault(sort = "creationDate", direction = Direction.DESC, 
+			@ApiIgnore @PageableDefault(sort = "creationDate", direction = Direction.DESC, 
 			page = 0, size = 10) Pageable pageable){
 		return ResponseEntity.ok(galleryService.findAll(pageable));
 	}
