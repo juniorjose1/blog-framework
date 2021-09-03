@@ -1,8 +1,8 @@
 package br.com.framework.blog.controller.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
 
 import br.com.framework.blog.model.Post;
 
@@ -36,8 +36,8 @@ public class PostDto {
 		return creationDate;
 	}
 
-	public static List<PostDto> toListPostDto(List<Post> posts) {
-		return posts.stream().map(PostDto::new).collect(Collectors.toList());
+	public static Page<PostDto> toListPostDto(Page<Post> posts) {
+		return posts.map(PostDto::new);
 	}
 
 }

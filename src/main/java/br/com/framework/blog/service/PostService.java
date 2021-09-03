@@ -1,9 +1,10 @@
 package br.com.framework.blog.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,8 @@ public class PostService {
 		return new PostDetailDto(post);
 	}
 	
-	public List<PostDto> findAll(){
-		List<Post> posts = postRepository.findAll();
+	public Page<PostDto> findAll(Pageable pageable){
+		Page<Post> posts = postRepository.findAll(pageable);
 		if(posts != null) {
 			return PostDto.toListPostDto(posts);
 		}

@@ -1,9 +1,12 @@
 package br.com.framework.blog.controller;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +30,10 @@ public class PostController {
 	private PostService postService;
 	
 	@GetMapping
-	public ResponseEntity<List<PostDto>> findAll(){
-		return ResponseEntity.ok(postService.findAll());
+	public ResponseEntity<Page<PostDto>> findAll(
+			@PageableDefault(sort = "creationDate", direction = Direction.DESC, 
+			page = 0, size = 10) Pageable pageable){
+		return ResponseEntity.ok(postService.findAll(pageable));
 	}
 	
 	@GetMapping("/{id}")
