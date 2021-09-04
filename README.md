@@ -33,6 +33,7 @@ OBS: Para excluir qualquer registro é preciso que o usuário seja o criador do 
 -Na pasta /images há a imagem do diagrama UML do Blog.
 
 -Usuários para testes:
+
 login: alexandre
 password: 123456
 
