@@ -10,11 +10,17 @@ OBS: Para excluir qualquer registro é preciso que o usuário seja o criador do 
 
 ## Tecnologias Utilizadas:
 -Java
+
 -Spring Boot, Data, Security
+
 -Token JWT
+
 -Beans Validation
+
 -PostgreSQL
+
 -Maven
+
 -Swagger
 
 ## Mais informações:
