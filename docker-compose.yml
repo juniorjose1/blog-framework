@@ -12,7 +12,7 @@ services:
       networks:
         - production-network
       ports:
-        - "5432:5432"
+        - 5432:5432
       restart: always
    blog-app:
       build:
