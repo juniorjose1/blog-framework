@@ -1,0 +1,39 @@
+version: '3'
+services:
+   postgres:
+      image: postgres:alpine
+      container_name: postgres
+      volumes:
+        - ./blog-data:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=blog
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=alexandre22
+      networks:
+        - production-network
+      ports:
+        - "5432:5432"
+      restart: always
+   blog-app:
+      build:
+         dockerfile: ./Dockerfile
+         context: .
+      image: juniorjose1/blog
+      container_name: blog
+      environment:
+        - FRAMEWORK_DATABASE_URL=jdbc:postgresql://postgres:5432/blog
+        - FRAMEWORK_DATABASE_USERNAME=postgres
+        - FRAMEWORK_DATABASE_PASSWORD=alexandre22
+        - FRAMEWORK_JWT_SECRET=rm!@N=Ke!~p8VTA2ZRK~nMDQX5Uvm!m'D&]{@Vr?G;2?XhbC
+        - SPRING_PROFILES_ACTIVE=prod
+        - PORT=8080
+      ports:
+        - 8080:8080
+      networks:
+        - production-network
+      depends_on:
+        - postgres
+      restart: always
+networks:
+   production-network:
+      driver: bridge
